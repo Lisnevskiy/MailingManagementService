@@ -1,0 +1,27 @@
+{% extends 'mailing/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h6>Авторизуйтесь, чтобы использовать все возможности сервера!</h6>
+                <h6>Или зарегистрируйте новый аккаунт -> <a class="btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a></h6>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.username|as_crispy_field }}
+                    {{ form.password|as_crispy_field }}
+                    <button type="submit" class="btn btn-success">Вход</button>
+                    <a href="{% url 'users:reset_password' %}" class="btn btn-outline-danger">Восстановить пароль</a>
+                </form>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

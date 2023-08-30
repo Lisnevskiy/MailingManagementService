@@ -1,0 +1,40 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Skystore</h1>
+    <a class="p-2 btn btn-outline-primary" href="/products/create">Добавить товар</a>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        {% for object in object_list %}
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object }}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ object.price }}$</h1>
+                    {% for version in object.version_set.all %}
+                    {% if version.current_version %}
+                    <span style="background-color:#adb5bd">Активная версия: {{ version }}</span>
+                    {% endif %}
+                    {% endfor %}
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- {{ object.description|truncatechars:100 }}</li>
+                    </ul>
+                    <a class="p-2 btn btn-outline-primary" href="/products/{{ object.pk }}">Перейти к товару</a>
+                    {% if perms.catalog.change_product or object.owner == request.user %}
+                    <a href="{% url 'catalog:product_update' object.pk %}" class="p-2 btn btn-outline-success">Редактировать товар</a>
+                    {% endif %}
+                    {% if perms.catalog.delete_product %}
+                    <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger">Удалить товар</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
