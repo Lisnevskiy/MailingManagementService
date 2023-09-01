@@ -9,11 +9,6 @@
         <div class="card-body">
             <h5 class="card-title">{{ object.email_subject }}</h5>
             <p class="card-text">{{ object.email_body }}</p>
-            <p class="card-text">Получатели:
-                {% for recipient in object.recipient.all %}
-                {{ recipient }};
-                {% endfor %}
-            </p>
             <p class="card-text">Периодичность рассылки: {{ object.periodicity }}</p>
             <p class="card-text">Статус рассылки: {{ object.status }}</p>
             <a href="{% url 'mailing:mailings_update' object.pk %}" class="btn btn-primary">Редактировать</a>
