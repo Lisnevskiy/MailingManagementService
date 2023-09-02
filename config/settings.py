@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "main_page.apps.MainPageConfig",
     "mailing.apps.MailingConfig",
     "recipient.apps.RecipientConfig",
     "blog.apps.BlogConfig",
