@@ -31,7 +31,7 @@ class Mailing(models.Model):
     title = models.CharField(max_length=250, verbose_name='название рассылки')
     email_subject = models.CharField(max_length=250, verbose_name='тема письма')
     email_body = models.TextField(verbose_name='содержание письма')
-    mailing_time = models.DateTimeField(auto_now=True, verbose_name='время рассылки')
+    mailing_time = models.DateTimeField(verbose_name='время рассылки')
     periodicity = models.CharField(max_length=20, choices=PERIODS, verbose_name='периодичность')
     status = models.CharField(max_length=20, choices=STATUSES, default=STATUS_CREATED, verbose_name='статус рассылки')
 

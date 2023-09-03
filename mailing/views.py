@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
 
 from mailing.forms import MailingForm
 from mailing.models import Mailing
+from mailing.services import send_mailing_task
 
 
 class MailingListView(ListView):
@@ -23,9 +25,22 @@ class MailingCreateView(CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)  # Сохраняем объект, но не коммитим его пока
             self.object.sender = self.request.user
-            self.object.save()
+
+            # Проверяем, если время начала уже прошло, то отправляем рассылку сразу
+            current_time = timezone.now()
+            if self.object.mailing_time <= current_time:
+                self.object.status = Mailing.STATUS_STARTED
+
+            self.object.save()  # Теперь коммитим объект
+
+            # Теперь добавляем связи с получателями
+            form.save_m2m()
+
+            # Если рассылку нужно запустить, то вызываем функцию для отправки
+            if self.object.status == Mailing.STATUS_STARTED:
+                send_mailing_task(self.object)
 
         return super().form_valid(form)
 
