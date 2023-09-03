@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "recipient.apps.RecipientConfig",
     "blog.apps.BlogConfig",
     "users.apps.UsersConfig",
+    "mailing_logs.apps.MailingLogsConfig",
 
     "crispy_forms",
     "crispy_bootstrap5",
