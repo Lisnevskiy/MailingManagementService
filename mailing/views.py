@@ -8,22 +8,41 @@ from mailing.services import send_mailing_task
 
 
 class MailingListView(ListView):
+    """
+    Представление для отображения списка рассылок.
+    """
     model = Mailing
     extra_context = {'title': 'Рассылки'}
 
 
 class MailingDetailView(DetailView):
+    """
+    Представление для отображения деталей рассылки.
+    """
     model = Mailing
     extra_context = {'title': 'Рассылка'}
 
 
 class MailingCreateView(CreateView):
+    """
+    Представление для создания новой рассылки.
+    """
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy('mailing:mailings')
     extra_context = {'title': 'Создание рассылки'}
 
     def form_valid(self, form):
+        """
+        Обрабатывает данные формы при их валидности.
+
+        Args:
+            form (MailingForm): Форма для создания рассылки.
+
+        Returns:
+            HttpResponseRedirect: Перенаправляет на страницу со списком рассылок.
+
+        """
         if form.is_valid():
             self.object = form.save(commit=False)  # Сохраняем объект, но не коммитим его пока
             self.object.sender = self.request.user
@@ -46,6 +65,9 @@ class MailingCreateView(CreateView):
 
 
 class MailingUpdateView(UpdateView):
+    """
+    Представление для редактирования рассылки.
+    """
     model = Mailing
     form_class = MailingForm
     extra_context = {'title': 'Редактирование рассылки'}
@@ -55,6 +77,9 @@ class MailingUpdateView(UpdateView):
 
 
 class MailingDeleteView(DeleteView):
+    """
+    Представление для удаления рассылки.
+    """
     model = Mailing
     success_url = reverse_lazy('mailing:mailings')
     extra_context = {'title': 'Удаление рассылки'}
