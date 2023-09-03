@@ -1,0 +1,33 @@
+{% extends 'mailing/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    {% if object %}
+    <h1 class="display-4">Редактирование рассылки</h1>
+    {% else %}
+    <h1 class="display-4">Создание рассылки</h1>
+    {% endif %}
+</div>
+<form method="post" class="form-floating" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-success">
+                        {% if object %}
+                        Сохранить
+                        {% else %}
+                        Создать
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'mailing:mailings' %}" class="btn btn-warning">Отмена</a>
+                </div>
+            </div>
+    </div>
+</form>
+{% endblock %}

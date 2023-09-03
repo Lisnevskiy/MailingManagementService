@@ -1,0 +1,45 @@
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
+
+from recipient.forms import RecipientForm
+from recipient.models import Recipient
+
+
+class RecipientListView(ListView):
+    model = Recipient
+    extra_context = {'title': 'Получатели'}
+
+
+class RecipientDetailView(DetailView):
+    model = Recipient
+    extra_context = {'title': 'Получатель'}
+
+
+class RecipientCreateView(CreateView):
+    model = Recipient
+    form_class = RecipientForm
+    success_url = reverse_lazy('recipient:recipients')
+    extra_context = {'title': 'Добавление получателя'}
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+            self.object.sender = self.request.user
+            self.object.save()
+
+        return super().form_valid(form)
+
+
+class RecipientUpdateView(UpdateView):
+    model = Recipient
+    form_class = RecipientForm
+    extra_context = {'title': 'Редактирование рассылки'}
+
+    def get_success_url(self):
+        return reverse('mailing:mailings_detail', args=[self.kwargs.get('pk')])
+
+
+class RecipientDeleteView(DeleteView):
+    model = Recipient
+    success_url = reverse_lazy('recipient:recipients')
+    extra_context = {'title': 'Удаление рассылки'}
