@@ -1,30 +1,64 @@
-{% extends 'mailing/base.html' %}
+{% extends 'main_page/base.html' %}
 
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Рассылки</h1>
+<div class="pricing-header px-3 py-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-5">Рассылки</h1>
     <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:mailings_create' %}">Создать рассылку</a>
     <a class="p-2 btn btn-outline-primary" href="{% url 'recipient:recipients' %}">Получатели</a>
+    <a class="p-2 btn btn-outline-primary" href="{% url 'mailing_logs:mailing_logs' %}">Логи рассылки</a>
 </div>
 
 <div class="container">
     <div class="row text-center">
         {% for object in object_list %}
+        {% if object.sender == request.user or perms.mailing.view_mailing %}
         <div class="col-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{ object }}</h4>
+                    <h4 class="my-0 font-weight-normal">
+                        {% if object.sender == request.user %}
+                        <a href="{% url 'mailing:mailings_detail' object.pk %}">-> {{ object }} <-</a>
+                        {% else %}
+                        {{ object }}
+                        {% endif %}
+                    </h4>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title pricing-card-title">{{ object.email_subject }}</h4>
-
+                    <h5 class="card-title pricing-card-title">{{ object.email_subject }}</h5>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li> {{ object.email_body|truncatechars:100 }}</li>
+                        <li>Периодичность -
+                            {% if object.periodicity == 'daily' %}
+                            Ежедневно
+                            {% elif object.periodicity == 'weekly' %}
+                            Еженедельно
+                            {% else %}
+                            Ежемесячно
+                            {% endif %}
+                        </li>
+                        <li>Статус рассылки -
+                            {% if object.status == 'done' %}
+                            Отключена
+                            {% elif object.status == 'started' %}
+                            Запущенна
+                            {% elif object.status == 'created' %}
+                            Создана
+                            {% endif %}
+                        </li>
                     </ul>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:mailings_detail' object.pk %}">Перейти к рассылке</a>
+                </div>
+                <div class="card-footer">
+                        {% if object.status == 'done' %}
+                        <a class="p-2 btn btn-outline-success" href="{% url 'mailing:change_status' object.pk %}">Запустить
+                            рассылку</a>
+                        {% elif object.status == 'started' %}
+                        <a class="p-2 btn btn-outline-warning" href="{% url 'mailing:change_status' object.pk %}">Остановить
+                            рассылку</a>
+                        {% endif %}
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

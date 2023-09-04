@@ -10,7 +10,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "recipient.apps.RecipientConfig",
     "blog.apps.BlogConfig",
     "users.apps.UsersConfig",
+    "mailing_logs.apps.MailingLogsConfig",
 
     "crispy_forms",
     "crispy_bootstrap5",
@@ -145,3 +146,13 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # адрес электронной почты отправителя (ваш аккаунт)
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # пароль от аккаунта
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.getenv('REDIS_HOST'),
+        'TIMEOUT': 300
+    }
+}

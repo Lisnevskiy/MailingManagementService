@@ -1,7 +1,7 @@
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3 mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+            <a href="{% url 'main_page:main_page' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi bi-mailbox" viewBox="0 0 16 16">
                     <path d="M4 4a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3zm0-1h8a4 4 0 0 1 4 4v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V7a4 4 0 0 1 4-4zm2.646 1A3.99 3.99 0 0 1 8 7v6h7V7a3 3 0 0 0-3-3H6.646z"/>
                     <path d="M11.793 8.5H9v-1h5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.354-.146l-.853-.854zM5 7c0 .552-.448 0-1 0s-1 .552-1 0a1 1 0 0 1 2 0z"/>
@@ -10,9 +10,9 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Главная</a></li>
-            <li><a href="#" class="nav-link px-2">Блог</a></li>
-            <li><a href="#" class="nav-link px-2">Контакты</a></li>
+            <li><a href="{% url 'main_page:main_page' %}" class="nav-link px-2 link-secondary">Главная</a></li>
+            <li><a href="{% url 'mailing:mailings' %}" class="nav-link px-2">Рассылки</a></li>
+            <li><a href="{% url 'recipient:recipients' %}" class="nav-link px-2">Получатели</a></li>
         </ul>
 
         <div class="col-md-3 text-end">

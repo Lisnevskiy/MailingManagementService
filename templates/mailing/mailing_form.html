@@ -1,4 +1,4 @@
-{% extends 'mailing/base.html' %}
+{% extends 'main_page/base.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -25,9 +25,14 @@
                         Создать
                         {% endif %}
                     </button>
+                    {% if object %}
+                    <a href="{% url 'mailing:mailings_detail' object.pk %}" class="btn btn-warning">Отмена</a>
+                    {% else %}
                     <a href="{% url 'mailing:mailings' %}" class="btn btn-warning">Отмена</a>
+                    {% endif %}
                 </div>
             </div>
+        </div>
     </div>
 </form>
 {% endblock %}

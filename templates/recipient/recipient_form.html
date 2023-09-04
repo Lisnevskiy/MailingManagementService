@@ -1,15 +1,15 @@
-{% extends 'mailing/base.html' %}
+{% extends 'main_page/base.html' %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    {% if object %}
-    <h1 class="display-4">Редактирование рассылки</h1>
-    {% else %}
-    <h1 class="display-4">Создание рассылки</h1>
-    {% endif %}
-</div>
+
+{% if object %}
+<h1 class="display-5 text-center">Редактирование получателя</h1>
+{% else %}
+<h1 class="display-5 text-center">Добавление получателя</h1>
+{% endif %}
+
 <form method="post" class="form-floating" enctype="multipart/form-data">
     <div class="row">
         <div class="col-2"></div>
@@ -28,6 +28,7 @@
                     <a href="{% url 'mailing:mailings' %}" class="btn btn-warning">Отмена</a>
                 </div>
             </div>
+        </div>
     </div>
 </form>
 {% endblock %}
