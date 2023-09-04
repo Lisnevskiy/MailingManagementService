@@ -1,12 +1,12 @@
 from django.shortcuts import render
 
-from blog.models import Blog
 from mailing.models import Mailing
+from main_page.services import get_blogs_cache
 from recipient.models import Recipient
 
 
 def main_page(request):
-    blogs = Blog.objects.order_by('-publication_date')[:3]
+    blogs = get_blogs_cache()
 
     if request.user.is_authenticated:
         mailings = Mailing.objects.filter(sender=request.user)
