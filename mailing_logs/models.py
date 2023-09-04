@@ -5,6 +5,7 @@ from recipient.models import Recipient
 
 
 class MailingLog(models.Model):
+    # Варианты статусов для лога рассылки
     STATUS_SUCCESSFUL = 'successful'
     STATUS_FAILED = 'failed'
 

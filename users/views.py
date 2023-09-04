@@ -9,15 +9,24 @@ from users.services import send_verifications_mail, send_new_password_email
 
 
 class UserLoginView(LoginView):
+    """
+    Представление для входа пользователя в систему.
+    """
     template_name = 'users/login.html'
     extra_context = {'title': 'Авторизация'}
 
 
 class UserLogoutView(LogoutView):
+    """
+    Представление для выхода пользователя из системы.
+    """
     pass
 
 
 class UserRegisterView(CreateView):
+    """
+    Представление для регистрации нового пользователя.
+    """
     model = User
     form_class = UserRegForm
     success_url = reverse_lazy('users:reg_confirmation')
@@ -25,6 +34,13 @@ class UserRegisterView(CreateView):
     extra_context = {'title': 'Регистрация'}
 
     def form_valid(self, form):
+        """
+        Обрабатывает данные формы при их валидности.
+        Args:
+            form (UserRegForm): Форма для регистрации пользователя.
+        Returns:
+            HttpResponseRedirect: Перенаправляет на страницу подтверждения регистрации.
+        """
         self.object = form.save()
 
         verification_url = self.request.build_absolute_uri(
@@ -37,16 +53,33 @@ class UserRegisterView(CreateView):
 
 
 class UserUpdateView(UpdateView):
+    """
+    Представление для просмотра и обновления профиля пользователя.
+    """
     model = User
     success_url = reverse_lazy('users:profile')
     form_class = UserForm
     extra_context = {'title': 'Профиль'}
 
     def get_object(self, queryset=None):
+        """
+        Получает объект пользователя для редактирования.
+        Args:
+            queryset: Не используется.
+        Returns:
+            User: Объект пользователя для редактирования (текущего пользователя).
+        """
         return self.request.user
 
 
 def verify(request):
+    """
+    Подтверждение email адреса пользователя после регистрации.
+    Args:
+        request (HttpRequest): Запрос.
+    Returns:
+        HttpResponse: Ответ с информацией о результате верификации.
+    """
     key = request.GET.get('key')
 
     try:
@@ -63,11 +96,25 @@ def verify(request):
 
 
 def reg_confirmation(request):
+    """
+    Страница подтверждения успешной регистрации пользователя.
+    Args:
+        request (HttpRequest): Запрос.
+    Returns:
+        HttpResponse: Ответ с информацией о подтверждении регистрации.
+    """
     context = {'title': 'Подтверждение регистрации'}
     return render(request, 'users/reg_confirmation.html', context=context)
 
 
 def reset_password(request):
+    """
+    Сброс пароля пользователя.
+    Args:
+        request (HttpRequest): Запрос.
+    Returns:
+        HttpResponse: Ответ с информацией о сбросе пароля.
+    """
     context = {'title': 'Сброс пароля'}
 
     if request.method == 'POST':
@@ -91,10 +138,24 @@ def reset_password(request):
 
 
 def new_password(request):
+    """
+    Создание нового пароля после сброса.
+    Args:
+        request (HttpRequest): Запрос.
+    Returns:
+        HttpResponse: Ответ с информацией о создании нового пароля.
+    """
     context = {'title': 'Новый пароль'}
     return render(request, 'users/new_password.html', context=context)
 
 
 def email_not_found(request):
+    """
+    Страница с информацией, что email адрес не найден.
+    Args:
+        request (HttpRequest): Запрос.
+    Returns:
+        HttpResponse: Ответ с информацией о том, что email адрес не найден.
+    """
     context = {'title': 'Не найдено'}
     return render(request, 'users/email_not_found.html', context=context)

@@ -36,20 +36,21 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
     extra_context = {'title': 'Создание рассылки'}
 
     def get_form_kwargs(self):
+        """
+        Получение аргументов для инициализации формы.
+        В данном методе добавляем аргумент 'user' для формы, чтобы знать, какому пользователю принадлежит рассылка.
+        """
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs['user'] = self.request.user  # Устанавливаем 'user' равным текущему пользователю
         return kwargs
 
     def form_valid(self, form):
         """
         Обрабатывает данные формы при их валидности.
-
         Args:
             form (MailingForm): Форма для создания рассылки.
-
         Returns:
             HttpResponseRedirect: Перенаправляет на страницу со списком рассылок.
-
         """
         if form.is_valid():
             self.object = form.save(commit=False)  # Сохраняем объект, но не коммитим его пока
@@ -81,8 +82,12 @@ class MailingUpdateView(UpdateView):
     extra_context = {'title': 'Редактирование рассылки'}
 
     def get_form_kwargs(self):
+        """
+        Получение аргументов для инициализации формы.
+        В данном методе добавляем аргумент 'user' для формы, чтобы знать, какому пользователю принадлежит рассылка.
+        """
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs['user'] = self.request.user  # Устанавливаем 'user' равным текущему пользователю
         return kwargs
 
     def get_success_url(self):

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import ListView
 
 from mailing_logs.models import MailingLog
