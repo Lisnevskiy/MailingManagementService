@@ -3,37 +3,41 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-        <div class="card">
-            <div class="card-header">
-                <h3>Профиль</h3>
-            </div>
-            <div class="card-body">
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Профиль</h3>
+                </div>
                 <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|crispy }}
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success me-2">Сохранить</button>
+                        <a href="{% url 'users:reset_password' %}" class="btn btn-outline-danger">Изменить пароль</a>
+                    </div>
                 </form>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-success me-2">Сохранить</button>
-                <a href="{% url 'users:reset_password' %}" class="btn btn-outline-danger">Изменить пароль</a>
-            </div>
         </div>
-    </div>
-    <div class="col-3">
-        <img src="/media/{{ user.avatar }}" class="img-fluid" onerror="this.src='/static/images/default avatar.png'">
-        {% if user.first_name %}
-        <p>{{ user.first_name }}</p>
-        {% else %}
-        <p>Имя не указано</p>
-        {% endif %}
-        {% if user.last_name %}
-        <p>{{ user.last_name }}</p>
-        {% else %}
-        <p>Фамилия не указана</p>
-        {% endif %}
+        <div class="col-3">
+            <img src="/media/{{ user.avatar }}" class="img-fluid"
+                 onerror="this.src='/static/images/default avatar.png'">
+            {% if user.first_name %}
+            <p>{{ user.first_name }}</p>
+            {% else %}
+            <p>Имя не указано</p>
+            {% endif %}
+            {% if user.last_name %}
+            <p>{{ user.last_name }}</p>
+            {% else %}
+            <p>Фамилия не указана</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
