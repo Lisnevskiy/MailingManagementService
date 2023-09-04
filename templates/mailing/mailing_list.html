@@ -1,4 +1,4 @@
-{% extends 'mailing/base.html' %}
+{% extends 'main_page/base.html' %}
 
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -10,21 +10,25 @@
 <div class="container">
     <div class="row text-center">
         {% for object in object_list %}
+        {% if object.sender == request.user %}
         <div class="col-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ object }}</h4>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title pricing-card-title">{{ object.email_subject }}</h4>
+                    <h5 class="card-title pricing-card-title">{{ object.email_subject }}</h5>
 
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li> {{ object.email_body|truncatechars:100 }}</li>
+                        <li> {{ object.status }}</li>
+                        <li> {{ object.sender }}</li>
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:mailings_detail' object.pk %}">Перейти к рассылке</a>
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
