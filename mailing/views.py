@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
@@ -17,13 +19,13 @@ class MailingListView(ListView):
 
 class MailingDetailView(DetailView):
     """
-    Представление для отображения деталей рассылки.
+    Представление для отображения рассылки.
     """
     model = Mailing
     extra_context = {'title': 'Рассылка'}
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     """
     Представление для создания новой рассылки.
     """
@@ -31,6 +33,11 @@ class MailingCreateView(CreateView):
     form_class = MailingForm
     success_url = reverse_lazy('mailing:mailings')
     extra_context = {'title': 'Создание рассылки'}
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         """
@@ -72,6 +79,11 @@ class MailingUpdateView(UpdateView):
     form_class = MailingForm
     extra_context = {'title': 'Редактирование рассылки'}
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def get_success_url(self):
         return reverse('mailing:mailings_detail', args=[self.kwargs.get('pk')])
 
@@ -83,3 +95,20 @@ class MailingDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:mailings')
     extra_context = {'title': 'Удаление рассылки'}
+
+
+def change_mailing_status(request, pk):
+    # Получаем объект рассылки по идентификатору
+    mailing = Mailing.objects.get(pk=pk)
+
+    # Изменяем статус рассылки
+    if mailing.status == 'done':
+        mailing.status = 'started'
+    elif mailing.status == 'started':
+        mailing.status = 'done'
+
+    # Сохраняем изменения
+    mailing.save()
+
+    # Перенаправляем пользователя на страницу, с которой он пришел
+    return redirect('mailing:mailings')

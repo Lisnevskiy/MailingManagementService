@@ -25,7 +25,11 @@
                         Создать
                         {% endif %}
                     </button>
+                    {% if object %}
+                    <a href="{% url 'mailing:mailings_detail' object.pk %}" class="btn btn-warning">Отмена</a>
+                    {% else %}
                     <a href="{% url 'mailing:mailings' %}" class="btn btn-warning">Отмена</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

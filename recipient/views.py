@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
 
@@ -15,7 +16,7 @@ class RecipientDetailView(DetailView):
     extra_context = {'title': 'Получатель'}
 
 
-class RecipientCreateView(CreateView):
+class RecipientCreateView(LoginRequiredMixin, CreateView):
     model = Recipient
     form_class = RecipientForm
     success_url = reverse_lazy('recipient:recipients')
