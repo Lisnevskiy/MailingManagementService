@@ -10,12 +10,16 @@
 <div class="container">
     <div class="row text-center">
         {% for object in object_list %}
-        {% if object.sender == request.user %}
+        {% if object.sender == request.user or perms.mailing.view_mailing %}
         <div class="col-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">
+                        {% if object.sender == request.user %}
                         <a href="{% url 'mailing:mailings_detail' object.pk %}">-> {{ object }} <-</a>
+                        {% else %}
+                        {{ object }}
+                        {% endif %}
                     </h4>
                 </div>
                 <div class="card-body">

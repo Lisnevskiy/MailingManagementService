@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
@@ -9,11 +9,12 @@ from mailing.models import Mailing
 from mailing.services import send_mailing_task
 
 
-class MailingListView(ListView):
+class MailingListView(PermissionRequiredMixin, ListView):
     """
     Представление для отображения списка рассылок.
     """
     model = Mailing
+    permission_required = 'mailing.view_mailing'
     extra_context = {'title': 'Рассылки'}
 
 
