@@ -18,6 +18,7 @@
 6. Необходимые примеры переменных окружения указаны в файле [.env.sample](.env.sample)
 
 ## Дополнительно
+
 Запуск брокера: `sudo service redis-server start`
 ([инструкция для windows](https://redis.io/docs/getting-started/installation/install-redis-on-windows/))
 ---
