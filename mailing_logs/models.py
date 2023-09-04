@@ -24,4 +24,5 @@ class MailingLog(models.Model):
         verbose_name_plural = 'Логи рассылки'
 
     def __str__(self):
-        return f'Лог рассылки {self.attempt_time} для {self.recipient}'
+        return (f'Лог рассылки "{self.mailing}" для {self.recipient}. Время рассылки - {self.attempt_time}, '
+                f'статус - {self.status}')

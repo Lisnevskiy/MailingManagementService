@@ -46,5 +46,5 @@ def send_mailing_task(mailing):
             )
             log.save()
 
-    mailing.status = Mailing.STATUS_DONE
+    # mailing.status = Mailing.STATUS_DONE
     mailing.save()

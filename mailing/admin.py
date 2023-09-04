@@ -5,4 +5,4 @@ from mailing.models import Mailing
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'status')
