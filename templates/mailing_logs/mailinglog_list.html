@@ -6,11 +6,25 @@
 </div>
 
 <div class="container">
-    <ul class="list-group list-group-flush">
-        {% for object in object_list %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">{{ object }}
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <ul class="list-group list-group-flush col-6">
+            <li>Успешные отправки:</li>
+            {% for object in object_list %}
+            {% if object.status == 'successful' and object.mailing.sender == request.user %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{ object }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        <ul class="list-group list-group-flush col-6">
+            <li>Неуспешные отправки:</li>
+            {% for object in object_list %}
+            {% if object.status == 'failed' and object.mailing.sender == request.user %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">{{ object }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}
